@@ -16,16 +16,19 @@ export default function IdentitySection() {
       // Scroll-to-fill text effect
       const lines = textRef.current?.querySelectorAll(".reveal-text span");
       lines?.forEach((line) => {
-        gsap.to(line, {
-          color: "#000000",
-          duration: 1,
-          scrollTrigger: {
-            trigger: line,
-            start: "top 80%",
-            end: "top 40%",
-            scrub: true,
-          },
-        });
+        gsap.fromTo(line, 
+          { color: "#d4d4d8" }, // zinc-300
+          {
+            color: "#000000",
+            duration: 1,
+            scrollTrigger: {
+              trigger: line,
+              start: "top 80%",
+              end: "top 40%",
+              scrub: true,
+            },
+          }
+        );
       });
 
       // Chevron images parallax

@@ -84,7 +84,7 @@ export default function AgentSection() {
             <h2 ref={headingRef} className="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tighter">
               Real Estate, Rewired For The Best Agents.
             </h2>
-            <p className="text-xl text-zinc-600 max-w-lg">
+            <p className="text-xl text-white-600 max-w-lg">
               We empower agents with the tools they need to provide a superior experience to their clients. Modern technology meets human expertise.
             </p>
             <div className="flex gap-4 pt-4">

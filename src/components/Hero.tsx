@@ -69,8 +69,8 @@ export default function Hero() {
         scrollTrigger: {
           trigger: wrapperRef.current,
           start: "top top",
-          end: "+=200%", // Animation now takes two full viewport heights of scroll
-          scrub: 2,
+          end: "+=300%", // Reduced for faster animation
+          scrub: 1, // Snappier response
         },
       });
 
@@ -87,7 +87,7 @@ export default function Hero() {
       );
 
       // Layer 2: House moves UP aggressively to touch the top
-      tl.to(".layer-house", { y: "-50vh", ease: "none", duration: 1 }, 0);
+      tl.to(".layer-house", { y: "-100vh", ease: "none", duration: 1 }, 0);
 
       // Layer 4: Cloud Front moves UP faster
       tl.to(".layer-cloud-front", { y: "-60vh", ease: "none", duration: 1 }, 0);
@@ -98,7 +98,7 @@ export default function Hero() {
     });
 
   return (
-    <section ref={wrapperRef} className="relative w-full h-[500vh] bg-zinc-950">
+    <section ref={wrapperRef} className="relative w-full h-[400vh] bg-zinc-950 mb-[-300vh]">
       <div
         ref={container}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
@@ -121,6 +121,7 @@ export default function Hero() {
           src="/Cloud-png/single-cloud.png"
           alt="Cloud Back"
           fill
+          unoptimized
           className="object-cover scale-110 translate-y-[-6vh]"
         />
       </div>
@@ -131,7 +132,7 @@ export default function Hero() {
           src="/only-house2.png"
           alt="Modern Building"
           fill
-          className="object-contain object-bottom scale-[1.35] origin-bottom md:scale-[1.5] translate-y-[80vh]"
+          className="object-contain object-bottom scale-[2.2] md:scale-[1.5] origin-bottom translate-y-[60vh] md:translate-y-[80vh]"
           priority
         />
       </div>
@@ -142,7 +143,8 @@ export default function Hero() {
           src="/Cloud-png/single-cloud.png"
           alt="Cloud Front"
           fill
-          className="object-cover scale-105 translate-y-[79vh]"
+          unoptimized
+          className="object-cover scale-125 translate-y-[10vh]"
         />
       </div> 
 
@@ -168,10 +170,10 @@ export default function Hero() {
 
 
       {/* Content Overlay */}
-      <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center text-center px-4 pointer-events-none -translate-y-[10vh]">
+      <div className="absolute inset-0 z-[1] flex flex-col items-center justify-center text-center px-4 pointer-events-none -translate-y-[5vh] md:-translate-y-[10vh]">
         <h1
           ref={titleRef}
-          className="text-[9vw] md:text-[7vw] font-black leading-[1.1] tracking-tighter text-black uppercase drop-shadow-2xl whitespace-nowrap"
+          className="text-4xl sm:text-5xl md:text-[7vw] font-black leading-[1.1] tracking-tighter text-black uppercase drop-shadow-2xl md:whitespace-nowrap"
         >
           Find What Moves You
         </h1>

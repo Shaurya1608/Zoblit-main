@@ -53,10 +53,10 @@ export default function StepReveal() {
       steps.forEach((_, idx) => {
         if (idx === 0) return;
         
-        // Fade out previous step
-        tl.to(`.step-item-${idx - 1}`, {
+        // Fade out previous step AND the left column if it's the first transition
+        tl.to([`.step-item-${idx - 1}`, idx === 1 ? leftCol.current : null].filter(Boolean), {
           opacity: 0,
-          y: -50,
+          y: -100,
           duration: 0.5,
         }, ">"); // Starts after previous animation
 
@@ -67,6 +67,13 @@ export default function StepReveal() {
           duration: 1,
         }, "<+=0.2"); // Starts slightly after the fade out begins
       });
+
+      // Fade out the last step at the very end
+      tl.to(`.step-item-${steps.length - 1}`, {
+        opacity: 0,
+        y: -100,
+        duration: 1,
+      }, ">+=0.5");
 
 
       // Counter animation with proxy pattern
@@ -90,20 +97,42 @@ export default function StepReveal() {
         });
       });
 
+      // Word-by-word reveal for the main heading
+      const heading = container.current?.querySelector("h3");
+      const headingText = heading?.innerText;
+      if (heading && headingText) {
+        const words = headingText.split(" ");
+        heading.innerHTML = words
+          .map((word) => `<span class="inline-block opacity-0 translate-y-8">${word}&nbsp;</span>`)
+          .join("");
+        
+        gsap.to(heading.querySelectorAll("span"), {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: heading,
+            start: "top 85%",
+          },
+        });
+      }
+
     },
     { scope: container }
   );
 
   return (
-    <section ref={container} className="bg-zinc-950 text-white overflow-hidden min-h-screen">
+    <section ref={container} className="bg-white text-zinc-950 overflow-hidden min-h-screen">
       <div className="max-w-7xl mx-auto px-4 md:px-8 h-screen flex flex-col md:flex-row gap-20 items-center">
         {/* Left Pinned Column */}
         <div ref={leftCol} className="w-full md:w-1/2 space-y-8">
           <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-blue-500">The Process</h2>
           <h3 className="text-6xl md:text-8xl font-black tracking-tighter leading-none uppercase">
-            Real Estate <br /> <span className="text-zinc-800">Rewired</span>
+            Real Estate <br /> <span className="text-zinc-100">Rewired</span>
           </h3>
-          <p className="text-xl text-zinc-400 max-w-md">
+          <p className="text-xl text-zinc-600 max-w-md">
             We've reimagined every step to ensure your journey is as elegant as your destination.
           </p>
         </div>
@@ -112,16 +141,16 @@ export default function StepReveal() {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className={`step-item-${idx} absolute inset-0 flex flex-col justify-center space-y-6 bg-zinc-950 ${idx === 0 ? "opacity-100" : "opacity-0"}`}
+              className={`step-item-${idx} absolute inset-0 flex flex-col justify-center space-y-6 bg-white ${idx === 0 ? "opacity-100" : "opacity-0"}`}
             >
 
-              <span className="text-zinc-800 font-black text-9xl leading-none">{step.number}</span>
+              <span className="text-zinc-50 font-black text-9xl leading-none">{step.number}</span>
               <h4 className="text-4xl font-bold">{step.title}</h4>
-              <p className="text-zinc-400 text-lg max-w-md">{step.description}</p>
+              <p className="text-zinc-600 text-lg max-w-md">{step.description}</p>
               
               <div className="pt-8">
-                <div className="text-6xl font-black text-white counter" data-target={step.stat}>0</div>
-                <p className="text-sm text-zinc-500 uppercase tracking-widest mt-2">{step.label}</p>
+                <div className="text-6xl font-black text-zinc-950 counter" data-target={step.stat}>0</div>
+                <p className="text-sm text-zinc-400 uppercase tracking-widest mt-2">{step.label}</p>
               </div>
             </div>
           ))}

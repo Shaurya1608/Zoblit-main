@@ -36,17 +36,32 @@ export default function Services() {
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-      gsap.from(".service-card", {
-        scale: 0.93,
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power2.out",
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container.current,
-          start: "top 80%",
+          start: "top top",
+          end: "+=300%",
+          pin: true,
+          pinSpacing: true,
+          scrub: 1,
         },
+      });
+
+      // Heading reveal
+      tl.from(".services-heading", {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+      });
+
+      // Cards sequential reveal
+      tl.from(".service-card", {
+        scale: 0.8,
+        opacity: 0,
+        y: 100,
+        stagger: 1, // High stagger for sequential feel
+        duration: 2,
+        ease: "power2.out",
       });
     },
     { scope: container }
@@ -67,11 +82,11 @@ export default function Services() {
   };
 
   return (
-    <section ref={container} className="py-32 px-4 md:px-8 bg-zinc-950">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-20">
+    <section ref={container} className="h-screen flex items-center px-4 md:px-8 bg-white text-zinc-950 overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="mb-20 services-heading">
           <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-blue-500 mb-4">Our Services</h2>
-          <h3 className="text-6xl md:text-8xl font-black uppercase tracking-tighter">What We Do.</h3>
+          <h3 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-zinc-950">What We Do.</h3>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
